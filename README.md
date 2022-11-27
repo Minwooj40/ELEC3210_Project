@@ -15,7 +15,7 @@ This project aims to implement a mobile robot operating in a simulation environm
 * OpenCV 4.2.0
 ### Additional packages
 * teleop_twist_keyboard 1.0.0
-* hector_slam 0.5.2
+* hector_mapping 0.5.2
 
 ## Methodology
 ### Task 1: Build 2D grid map with laserscan data via rviz
