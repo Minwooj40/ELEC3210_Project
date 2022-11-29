@@ -2,6 +2,7 @@
 |    Name     |Student ID|        Email        | Contribution |
 |-------------|----------|---------------------|---|
 |Minwoo Jung  |20456190  |mjung@connect.ust.hk ||
+|Jaechul Roh  |20473590  |jroh@connect.ust.hk ||
 
 ## Introduction
 This project aims to implement a mobile robot operating in a simulation environment with ROS and CoppeliaSim. The robot operation is designed to be controlled by keyboard input and its laser can data can construct the a map of environment which allows the robot's position determination. Moreover, the mobile robot detects face images using camera sensors and predict its position at the same time. Lastly, the robot follows the path of yellow ball. These process can be switched to automatic mode as well. 
