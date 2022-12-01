@@ -8,6 +8,7 @@
 
 # modified environment variables
 export CMAKE_PREFIX_PATH="/home/minwoo/ELEC3210_Project/devel:$CMAKE_PREFIX_PATH"
+export LD_LIBRARY_PATH="/home/minwoo/ELEC3210_Project/devel/lib:$LD_LIBRARY_PATH"
 export PWD='/home/minwoo/ELEC3210_Project/build'
 export ROSLISP_PACKAGE_DIRECTORIES='/home/minwoo/ELEC3210_Project/devel/share/common-lisp'
 export ROS_PACKAGE_PATH="/home/minwoo/ELEC3210_Project/src:$ROS_PACKAGE_PATH"

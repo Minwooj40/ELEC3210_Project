@@ -1,0 +1,8 @@
+prefix=/home/minwoo/ELEC3210_Project/devel
+
+Name: image_detect
+Description: Description of image_detect
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

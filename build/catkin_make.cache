@@ -1,2 +1,2 @@
-
+image_detect:slam
 -DCATKIN_DEVEL_PREFIX=/home/minwoo/ELEC3210_Project/devel -DCMAKE_INSTALL_PREFIX=/home/minwoo/ELEC3210_Project/install -G Unix Makefiles
