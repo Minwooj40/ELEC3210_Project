@@ -19,11 +19,11 @@ This project aims to implement a mobile robot operating in a simulation environm
 
 ## Methodology
 ### Task 1: Build 2D grid map with laserscan data via rviz
-Node: hector_mapping
+Node: slam
 Publish Topic: /slam_out_pose/map/
 Subscribe Topic: /initialpose/vrep/scan
 
-We used the [hector_slam](http://wiki.ros.org/hector_slam) package to complete the task. This package generates the environment map and publishes to `/map`. It also produces information about the location of the robot which is publised to `/slam_out_pose`. This will be used for later steps. 
+We used the [hector_slam](http://wiki.ros.org/hector_slam) package to complete the task. This package helps to generate the map based on the laser scan. It continously publishes its map to `/map`, and alsothe location of the robot which is publised to `/slam_out_pose`. Location of robot will be used in Task 5 for area detection
 
 ### Task 2: Control the mobile robot with keyboard
 Node: teleop
@@ -34,3 +34,30 @@ We used the [teleop_twist_keyboard](http://wiki.ros.org/teleop_twist_keyboard) p
 ```linux=
 $ rosrun teleop_twist_keyboard teleop_twist_keyboard.py /cmd_vel:=/vrep/cmd_vel
 ```
+### Task 3: Image Recognition and Create marker
+Node: image_detect
+Publish Topic: /vrep/marker
+Subscribe Topic: /vrep/image, /vrep/scan, /slam_out_pose
+
+#### Image detection
+Step 1: Get the camera image from /vrep/image. The images are flipped before processing.
+Step 2: Image detection is performed with [OpenCV's guide about Oriented FAST and Rotated BRIEF + Brute-force descriptor matcher](https://docs.opencv.org/3.4/d1/d89/tutorial_py_orb.html). Prepare descriptors of all given five pictures for future matching with targeted image. 
+```python=
+self.orb = cv2.ORB_create()
+keyPoint, descriptor = self.orb.detectAndCompute(picture, None)
+```
+Step 3: Get the descriptor for the targeted image and perform BFMatcher to figure ou the best match.
+```python=
+bf = cv2.BFMatcher(cv2.NORM_HAMMING)
+matches = bf.match(des, descriptor)
+matches = sorted(matches, key = lambda x:x.distance)
+```
+#### Localization
+
+
+### Task 5: Room localization
+Node: localization
+Publish Topic: None
+Subscribe Topic: /slam_out_pose
+Step 1: Estimate the coordination for each room A, B, C, D 
+Step 2: Depends on the position of the robot measured from the subscribe topic, we can figure out the area that robot places. 
