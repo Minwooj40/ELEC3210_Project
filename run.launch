@@ -5,4 +5,5 @@
     <node pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" name="teleop" output="screen">
     	<remap from="cmd_vel" to="/vrep/cmd_vel"/>
     </node>
+    <node pkg="localization" type="localization.py" name="localization" output="screen"/>
 </launch>
