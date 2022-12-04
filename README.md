@@ -1,21 +1,69 @@
 # ELEC3210_Project
-|    Name     |Student ID|        Email        | Contribution |
-|-------------|----------|---------------------|---|
-|Minwoo Jung  |20456190  |mjung@connect.ust.hk ||
+|    Name     |Student ID|         Email         | Contribution |
+|-------------|----------|-----------------------|--------------|
+|Minwoo Jung  |20456190  |mjung@connect.ust.hk   ||
+|Sieun Kim    |20552815  |sekimaa@connect.ust.hk ||
 
 ## Introduction
 This project aims to implement a mobile robot operating in a simulation environment with ROS and CoppeliaSim. The robot operation is designed to be controlled by keyboard input and its laser can data can construct the a map of environment which allows the robot's position determination. Moreover, the mobile robot detects face images using camera sensors and predict its position at the same time. Lastly, the robot follows the path of yellow ball. These process can be switched to automatic mode as well. 
 
 ## Environment setup
 ### Environments used
-* Ubuntu 20.04
-* ROS: Noetic
-* V-REP 3.6.2
-* rviz 1.14.10
-* OpenCV 4.2.0
+* Ubuntu 18.04
+* ROS: Melodic
+* V-REP 4.0.0
+* rviz 1.13.29
 ### Additional packages
 * teleop_twist_keyboard 1.0.0
 * hector_mapping 0.5.2
+### ROS & catkin Install
+1. Install ROS: http://wiki.ros.org/melodic/Installation/Ubuntu
+2. Install catkin: http://wiki.ros.org/catkin
+3. Configure and create catkin workspace
+```linux=
+$ echo "source /opt/ros/kinetic/setup.bash" >> ~/.bashrc
+$ source ~/.bashrc
+$ mkdir -p ~/catkin_ws/src
+$ cd ~/catkin_ws/
+$ catkin_make
+$ echo "source ~/catkin_ws/devel/setup.bash" >> ~/.bashrc
+$ source ~/.bashrc
+$ echo $ROS_PACKAGE_PATH
+```
+4. Install needed packages
+```linux=
+$ sudo apt-get install ros-melodic-hector-slam
+$ sudo apt-get install ros-melodic-teleop-twist-keyboard
+```
+### Install VREP
+1. Download CoppeliaSim Edu, Ubuntu_18.04: https://coppeliarobotics.com/previousVersions
+```linux=
+$ cd Downloads 
+$ tar -xf CoppeliaSim_Edu_V4_0_0_Ubuntu18_04.tar.xz -C /home/username/
+$ cd ~
+$ mv CoppeliaSim_Edu_V4_0_0_Ubuntu18_04 ~/VREP
+```
+2. Move ROSInterface files
+```linux=
+$ cd VREP
+$ cp ./compiledRosPlugins/libsimExtROSInterface.so ./
+$ cp ./compiledRosPlugins/libsimExtROS2Interface.so ./
+$ source ~/.bashrc
+```
+3. Change moduleName in VREP (Prevent "RosInterface has not loaded" Error)
+```linux=
+# Run roscore
+$ roscore
+```
+```linux=
+# Open a new terminal tap
+$ cd ~/VREP
+$ ./coppeliaSim.sh
+# Open env.tt as a new scene
+# double click document icon next to Pioneer_p3dx uner env
+# Edit line 46 from RosInterface to ROSInterface
+# Run simulation and yellow ball should move slowly
+```
 
 ## Methodology
 ### Task 1: Build 2D grid map with laserscan data via rviz
