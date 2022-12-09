@@ -10,6 +10,7 @@ import time
 import cv2
 
 fileName = ["pic001", "pic002", "pic003", "pic004", "pic005"]
+faceName = ["Obama", "Avril", "Cheung", "Rings", "Levi" ]
 
 class detectionModel:
     def __init__(self):
@@ -43,7 +44,7 @@ class detectionModel:
             marker.header.frame_id = "camera_link"
             marker.ns = "picture"
             marker.type = marker.TEXT_VIEW_FACING
-            marker.text = fileName[i]
+            marker.text = faceName[i]
             marker.action = marker.ADD
 
             marker.color.r = 1.0
@@ -81,7 +82,7 @@ class detectionModel:
 
             dist = sorted(dist)
             #print(dist[0][0], dist[0][1])
-            if(dist[0][0] < 15.0):
+            if(dist[0][0] < 17.0):
                 # print("Detect the image and inference the best fit", dist[0][1])
                 return dist[0][1]
             else:
@@ -97,7 +98,7 @@ class detectionModel:
         x, y, w, h = cv2.boundingRect(max(grads, key = cv2.contourArea))
 
 
-        ###### Ratio Test
+        ###### Ratio Tests
         ratio = float(w)/h
         if ratio >= 0.5 and ratio <= 1.1:
             self.detectionCnt[id] += 1
