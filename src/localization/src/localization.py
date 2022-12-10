@@ -5,10 +5,10 @@ from geometry_msgs.msg import PoseStamped
 
 
 coord = {
-    "A": ((5, 0), (-3.5, -3.5)),
-    "B": ((5, -3.5), (-3.5, -7)),
-    "C": ((5, -7), (-3.5, -14)),
-    "D": ((10.5, 0), (5, -14)),
+    "A": ((4.5, 0), (-3.5, -3.5)),
+    "B": ((4.5, -3.5), (-3.5, -7)),
+    "C": ((4.5, -7), (-3.5, -14)),
+    "D": ((10.5, 0), (4.5, -14)),
 }
 
 # coord = {
@@ -28,7 +28,7 @@ class Localization:
         x = msg_in.pose.position.x
         y = msg_in.pose.position.y
         curArea = self.area
-
+        
         for a, coor in coord.items():
             if self.areaCheck(x, y, coor):
                 curArea = a
