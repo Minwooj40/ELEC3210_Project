@@ -64,6 +64,17 @@ class detectionModel:
             self.markers.append(marker)
 
 
+    def imageDetection(self, img):
+        face_cascade = cv2.CascadeClassifier('/home/minwoo/ELEC3210_Project/src/image_detect/haarcascade_frontalface_default.xml')
+        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        faces = face_cascade.detectMultiScale(gray, 1.3, 5)
+
+        for (x,y,w,h) in faces:
+            cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0),2)
+
+        cv2.imshow('Image Detection',img)
+        cv2.waitKey(1)
+
     def imageFit(self, img):
         dist = []
         keyPoint = self.orb.detect(img, None)
@@ -113,8 +124,8 @@ class detectionModel:
             self.marked[id] = True
 
     def callback(self, img):
-    
         img = self.bridge.imgmsg_to_cv2(img, "bgr8")
+        self.imageDetection(img)
         bestId = self.imageFit(img)
         if bestId == -1: return
         else:
