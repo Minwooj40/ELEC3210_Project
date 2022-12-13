@@ -1,2 +1,2 @@
-
--DCATKIN_DEVEL_PREFIX=/home/minwoo/ELEC3210_Project/devel -DCMAKE_INSTALL_PREFIX=/home/minwoo/ELEC3210_Project/install -G Unix Makefiles
+image_detect:localization:slam:visual_servoing
+-DCATKIN_DEVEL_PREFIX=/home/sieun/Documents/ELEC3210/ELEC3210_Project/devel -DCMAKE_INSTALL_PREFIX=/home/sieun/Documents/ELEC3210/ELEC3210_Project/install -G Unix Makefiles

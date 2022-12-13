@@ -3,20 +3,22 @@
 import cv2
 import numpy as np
 import rospy
-import math
 from cv_bridge import CvBridge, CvBridgeError
 from sensor_msgs.msg import Image
 from std_msgs.msg import String, Bool, Float32
-from geometry_msgs.msg import Twist
+from geometry_msgs.msg import Twist, PoseStamped
+
 
 bridge = CvBridge()
+laser_scan_on = True
 
 def auto_mode_callback(msg):
     global laser_scan_on
     laser_scan_on = msg.data
-    
+
 def image_callback(msg):
     image = None
+
     # recieve image from CvBridge and if fail print the error
     try:
         image = bridge.imgmsg_to_cv2(msg, "bgr8")
@@ -34,10 +36,11 @@ def image_callback(msg):
     cv2.imshow("masked image", mask_temp2)
     cv2.waitKey(1)
 
-    # mask_temp = mask_temp2
     _, contours, _ = cv2.findContours(mask_temp2, cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
     
+    # if len(contours) == 0 or laser_scan_on:
     if len(contours) == 0:
+        # print("2", x, y)
         return
 
     image_temp = image
@@ -55,35 +58,27 @@ def image_callback(msg):
     pub = rospy.Publisher('/vrep/cmd_vel', Twist, queue_size=10)
     twist = Twist()
 
-    # if area_ratio:
-    #     twist.angular.z = float(256 - ball_center_x) * 0.7 / 256
-    # else:
-    #     twist.angular.z = 0
-    
-    # if area_ratio < 0.01:
-    #     twist.angular.z = 0
-    #     twist.linear.x = 0
-    # elif area_ratio < 0.05:
-    #     twist.linear.x = 0.8
-    # elif area_ratio > 0.1:
-    #     twist.linear.x = -0.8
-    # else:
-    #     twist.linear.x = 0
-
     if area_ratio:
-        twist.angular.z = float(256 - ball_center_x) * 0.7 / 256
+        box_x2 = box_x + box_width
+        box_y2 = box_y + box_height
+        
+        if box_x < 50:
+            twist.angular.z = 0.5
+        elif box_x2 > 450:
+            twist.angular.z = -0.5
+        else:
+            twist.angular.z = float((image_height / 2) - ball_center_x) * 0.7 / (image_width / 2)
+        
+        if area_ratio < 0.05:
+            twist.linear.x = 1.0
+        elif area_ratio < 0.15:
+            twist.linear.x = 0.8
+        elif area_ratio > 0.25:
+            twist.linear.x = -0.5
+        else:
+            twist.linear.x = 0.3
     else:
-        twist.angular.z = 0
-    
-    if area_ratio < 0.05:
-        # twist.angular.z = 0
-        twist.linear.x = 1.0
-    elif area_ratio < 0.1:
-        twist.linear.x = 0.8
-    elif area_ratio > 0.3:
-        twist.linear.x = -0.5
-    else:
-        twist.linear.x = 0.3
+        return
         
     pub.publish(twist)
 
